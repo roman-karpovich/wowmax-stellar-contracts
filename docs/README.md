@@ -18,6 +18,7 @@ Built under Stellar Community Fund Build Award #43.
 | [User guide](USER-GUIDE.md) | Swapping and bridging in the WOWMAX app, step by step |
 | [Developer integration](INTEGRATION.md) | REST + TypeScript SDK quickstart — first quote in ~3 minutes, full non-custodial cycle under 15 |
 | [Contribution model](CONTRIBUTING.md) | Adding a DEX venue or a bridge adapter, code and security expectations |
+| [External integrations](INTEGRATIONS.md) | Who is building on the WOWMAX Stellar API |
 | [Operations runbook](RUNBOOK.md) | Production monitoring, alerting, incident scenarios |
 | [Latency benchmark](D10-LATENCY.md) | Public p50/p95/p99 measurements of the live API |
 | [D1 engine report](REPORT.md) | The original routing-engine deliverable report |

@@ -149,10 +149,16 @@ https://github.com/wowmax-exchange/wowmax-stellar-contracts/blob/master/docs/D10
 
 Continuously re-measured in production (see the public dashboards above).
 
-**Criterion: First external integration documented — [FILL].**
+**Criterion: First external integration documented — DONE.**
 
-`docs/INTEGRATIONS.md` pending two facts (integrator identity/anonymity
-preference and current status) from the July 17 external integration case.
+https://wowmax-exchange.github.io/wowmax-stellar-contracts/INTEGRATIONS
+
+Toscale (https://toscale.io) runs the WOWMAX router in production as the swap
+and cross-chain widget on its market pages, with Stellar selectable as a
+network — a third-party product embedding Stellar routing without operating
+routing infrastructure or taking custody. Separately, Aurora Intents (NEAR)
+is evaluating the WOWMAX Stellar router as a routing source in its
+price-routing comparison tool (https://price-routing-tool.vercel.app/).
 
 ---
 
