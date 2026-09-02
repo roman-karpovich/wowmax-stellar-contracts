@@ -1,0 +1,33 @@
+# StellarExpert contract source validation.
+#
+# Triggered by pushing a tag prefixed with "v". The reusable workflow rebuilds
+# the contract in a controlled environment and publishes the artifact together
+# with an attestation, which StellarExpert uses to link the deployed wasm hash
+# back to this repository at a specific commit.
+#
+# Note on reproducibility: our bytecode on mainnet
+# (095ee35248f9076fb76d26d7d97e1308c35586df364ff0442b664c5fb3718883) is
+# byte-identical only under stellar-cli 26.0.0 / rustc 1.95.0 / wasm32v1-none,
+# as recorded in docs/security/README.md. If the upstream workflow builds with
+# a different toolchain the hashes will diverge and validation will not match.
+name: Contract release and validation
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release-executor:
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    uses: stellar-expert/soroban-build-workflow/.github/workflows/release.yml@main
+    with:
+      release_name: ${{ github.ref_name }}
+      release_description: 'WowmaxAggregator — Stellar execution contract'
+      relative_path: '["contracts"]'
+      package: 'wowmax-stellar-router'
+    secrets:
+      release_token: ${{ secrets.GITHUB_TOKEN }}
