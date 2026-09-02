@@ -1,7 +1,6 @@
 # SCF Build Award #43 — Evidence Package: Deliverables 8, 9, 10
 
-Prepared 2026-08-03. All links public unless marked. Placeholders to fill
-before submission are marked `[FILL]`.
+Prepared 2026-08-03, verified 2026-09-02. All links public and live.
 
 ---
 
