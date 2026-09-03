@@ -44,21 +44,35 @@ Every transaction below is independently verifiable on a public explorer.
 
 ## 2. Cross-chain transfers
 
-Cross-chain routing is documented in two places. The benchmark report
-[`D5-REPORT.pdf`](../D5-REPORT.pdf) records **11 completed transfers** across
-Allbridge, Squid and Near Intents, each with measured delivery time computed
-from the deposit and withdrawal transactions on both chains.
+Fourteen transfers are documented across three bridge providers, in both
+directions, and the deliverable asks for five.
 
-Two further transfers were executed on 2026-09-03 through the production UI,
-both delivered by a Near Intents solver
-(`GBX2CFNBNJOLHK3RQXG5RKUMM4WCZ3SRUFZBL6CT76J6CACW7AEZ3SHN`). Note that the
-solver delivers by invoking a contract rather than by a plain payment, which
-is why these arrive as `invoke_host_function` on the Stellar side:
+**July series — 11 transfers, plus one documented refund.** Captured in the
+benchmark report [`D5-REPORT.pdf`](../D5-REPORT.pdf), where every transfer has
+its source and destination transactions linked on the corresponding evidence
+slide, together with the delivery time measured from those two transactions:
 
-| Route | Received | Date (UTC) | Stellar transaction |
-|---|---|---|---|
-| USDT (Ethereum) → USDC (Stellar) | 31.7313 USDC | 2026-09-03 03:51:09 | [`6e4c8a638edb…`](https://stellar.expert/explorer/public/tx/6e4c8a638edb6cb459b14bb8c346d42854e99e544e28ab7a0abee831af14adc0) |
-| BNB (BNB Chain) → XLM (Stellar) | 195.0749 XLM | 2026-09-03 04:15:31 | [`0f1eec3d74d5…`](https://stellar.expert/explorer/public/tx/0f1eec3d74d595891205a804ec4f6a550723c0c95dffbc7a126a23ac0bb2ffdb) |
+| Provider | Transfers | Covered directions |
+|---|---|---|
+| Allbridge | 3 successful | includes 2 inbound Ethereum → Stellar |
+| Squid (Coral RFQ over Axelar GMP) | 4 successful | inbound from Ethereum and BNB Chain, plus one refund case documented end to end |
+| Near Intents | 4 successful | inbound from Ethereum and BNB Chain |
+
+**September series — 3 transfers, executed through the production UI.** These
+add the outbound direction and a second provider chosen by the user from the
+ranking. For the outbound transfer the app offered Near (~34 s, 79.6743 USDT)
+and Squid (~40 s, 79.3697 USDT, capacity ≤25k); Squid was selected:
+
+| Direction | Route | Amount | Provider | Date (UTC) | Transaction |
+|---|---|---|---|---|---|
+| Inbound | USDT (Ethereum) → USDC (Stellar) | 31.7313 USDC received | Near Intents | 2026-09-03 03:51:09 | [`6e4c8a638edb…`](https://stellar.expert/explorer/public/tx/6e4c8a638edb6cb459b14bb8c346d42854e99e544e28ab7a0abee831af14adc0) |
+| Inbound | BNB (BNB Chain) → XLM (Stellar) | 195.0749 XLM received | Near Intents | 2026-09-03 04:15:31 | [`0f1eec3d74d5…`](https://stellar.expert/explorer/public/tx/0f1eec3d74d595891205a804ec4f6a550723c0c95dffbc7a126a23ac0bb2ffdb) |
+| Outbound | USDC (Stellar) → USDT (Ethereum) | 79.9858 USDC sent | Squid | 2026-09-03 05:05:13 | [`8e58bf3d9a1d…`](https://stellar.expert/explorer/public/tx/8e58bf3d9a1d575b613522a59f8e31fb381c756111245e6e4b37cff744345ade) · [Squid scan](https://scan.squidrouter.com/tx/8e58bf3d9a1d575b613522a59f8e31fb381c756111245e6e4b37cff744345ade) |
+
+The Near Intents solver
+(`GBX2CFNBNJOLHK3RQXG5RKUMM4WCZ3SRUFZBL6CT76J6CACW7AEZ3SHN`) delivers by
+invoking a contract rather than by a plain payment, which is why the inbound
+rows appear as `invoke_host_function` on the Stellar side.
 
 ## 3. June series — first executor deployment
 
