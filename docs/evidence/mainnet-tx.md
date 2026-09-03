@@ -44,7 +44,7 @@ Every transaction below is independently verifiable on a public explorer.
 
 ## 2. Cross-chain transfers
 
-Fourteen transfers are documented across three bridge providers, in both
+Fifteen transfers are documented across three bridge providers, in both
 directions, and the deliverable asks for five.
 
 **July series — 11 transfers, plus one documented refund.** Captured in the
@@ -58,9 +58,10 @@ slide, together with the delivery time measured from those two transactions:
 | Squid (Coral RFQ over Axelar GMP) | 4 successful | inbound from Ethereum and BNB Chain, plus one refund case documented end to end |
 | Near Intents | 4 successful | inbound from Ethereum and BNB Chain |
 
-**September series — 3 transfers, executed through the production UI.** These
+**September series — 4 transfers, executed through the production UI.** These
 add the outbound direction and a second provider chosen by the user from the
-ranking. For the outbound transfer the app offered Near (~34 s, 79.6743 USDT)
+ranking, including a full Stellar → Ethereum → Stellar round trip through
+Squid. For the outbound transfer the app offered Near (~34 s, 79.6743 USDT)
 and Squid (~40 s, 79.3697 USDT, capacity ≤25k); Squid was selected:
 
 | Direction | Route | Amount | Provider | Date (UTC) | Transaction |
@@ -68,6 +69,7 @@ and Squid (~40 s, 79.3697 USDT, capacity ≤25k); Squid was selected:
 | Inbound | USDT (Ethereum) → USDC (Stellar) | 31.7313 USDC received | Near Intents | 2026-09-03 03:51:09 | [`6e4c8a638edb…`](https://stellar.expert/explorer/public/tx/6e4c8a638edb6cb459b14bb8c346d42854e99e544e28ab7a0abee831af14adc0) |
 | Inbound | BNB (BNB Chain) → XLM (Stellar) | 195.0749 XLM received | Near Intents | 2026-09-03 04:15:31 | [`0f1eec3d74d5…`](https://stellar.expert/explorer/public/tx/0f1eec3d74d595891205a804ec4f6a550723c0c95dffbc7a126a23ac0bb2ffdb) |
 | Outbound | USDC (Stellar) → USDT (Ethereum) | 79.9858 USDC sent | Squid | 2026-09-03 05:05:13 | [`8e58bf3d9a1d…`](https://stellar.expert/explorer/public/tx/8e58bf3d9a1d575b613522a59f8e31fb381c756111245e6e4b37cff744345ade) · [Squid scan](https://scan.squidrouter.com/tx/8e58bf3d9a1d575b613522a59f8e31fb381c756111245e6e4b37cff744345ade) |
+| Inbound | USDT (Ethereum) → USDC (Stellar) — return leg of the transfer above | 79.3775 USDC received | Squid | 2026-09-03 06:07:22 | [`2ae569913984…`](https://stellar.expert/explorer/public/tx/2ae5699139844d38d48dfee19eafb9bede8904f3649512745846029403ab7cdc) |
 
 The Near Intents solver
 (`GBX2CFNBNJOLHK3RQXG5RKUMM4WCZ3SRUFZBL6CT76J6CACW7AEZ3SHN`) delivers by
