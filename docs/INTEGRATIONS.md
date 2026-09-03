@@ -30,11 +30,12 @@ flow described in the integration guide.
 
 **Executing on mainnet.** A swap placed from the Toscale widget on
 2026-09-03 — XLM → USDC on Stellar, routed by WOWMAX and settled as a classic
-path payment with the minimum-output floor the router builds in:
+path payment. The wallet showed a guaranteed floor of 0.1754773 USDC and
+the swap settled above it, at 0.1763592 USDC:
 
-| Route | In | Out (minimum enforced) | Transaction |
+| Route | In | Out (with the enforced floor) | Transaction |
 |---|---|---|---|
-| XLM → USDC | 1 XLM | 0.1754773 USDC | [`95cbe81aa440…`](https://stellar.expert/explorer/public/tx/95cbe81aa4407e1352ac85d7c037f793c55e70fc3963e8fd7f2f18f19b5029e7) |
+| XLM → USDC | 1 XLM | 0.1763592 USDC (floor 0.1754773) | [`95cbe81aa440…`](https://stellar.expert/explorer/public/tx/95cbe81aa4407e1352ac85d7c037f793c55e70fc3963e8fd7f2f18f19b5029e7) |
 
 The wallet confirmation for that transaction names `toscale.io` as the
 requesting site, and the transaction carries the trustline creation and the
