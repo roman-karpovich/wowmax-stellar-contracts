@@ -1,5 +1,5 @@
 //! Runs the current WOWMAX aggregator WASM against captured mainnet
-//! Soroswap, Phoenix and Aquarius pools. See `README.md` for what each test shows.
+//! Soroswap, Phoenix and Aquarius pools. See `EXAMPLE.md` for what each test shows.
 
 // The generated client mirrors entry points that take seven arguments.
 #![allow(clippy::too_many_arguments)]

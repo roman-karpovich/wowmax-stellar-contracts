@@ -108,11 +108,7 @@ redeployment.
 - Token continuity is validated: a strand must start at `token_in`, each
   hop must consume the previous hop's `token_out`, and the last hop must
   produce `token_out`.
-- `deadline` is a Unix timestamp in seconds; `0` means no deadline. The
-  aggregator rejects nonzero values before the current timestamp. Soroswap
-  also rejects equality, so use a strictly future timestamp for a plan that
-  may include Soroswap. Phoenix/Aquarius acceptance at equality does not make
-  it valid for every venue. See the [offline regression tests](integration-tests/mainnet/README.md).
+- `deadline` is enforced on-chain, not delegated to the venue.
 - Amounts are validated before any cast or transfer; self-swaps and
   degenerate hops are rejected.
 - No funds are retained: after execution the contract's balances of the
