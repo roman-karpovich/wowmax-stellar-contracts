@@ -86,14 +86,11 @@ const ROUTER_DEADLINE_EXPIRED: u32 = 503;
 /// 300 XLM: three branches of exactly 100 XLM.
 const AMOUNT: i128 = 3_000_000_000;
 
-/// Strictly replays a committed bundle; refreshing is an explicit read-only action.
+/// Replay the committed pool state for this scenario.
 fn runner(bundle: &str) -> AutoRunner {
-    let path = format!("{}/fixtures/{bundle}", env!("CARGO_MANIFEST_DIR"));
-    let runner = mainnet().rpc_rate_limit(4).cache(path);
-    match std::env::var("KANATOKO_CAPTURE_RPC") {
-        Ok(url) => runner.rpc_url(url).refresh(),
-        Err(_) => runner.offline(),
-    }
+    mainnet()
+        .cache(format!("{}/fixtures/{bundle}", env!("CARGO_MANIFEST_DIR")))
+        .offline()
 }
 
 /// The aggregator, and a local account holding XLM with a USDC trustline.
@@ -102,7 +99,7 @@ fn setup<'a>(fork: &ScenarioFork<'a>) -> (AggregatorClient<'a>, Address) {
     fork.mock_all_auths();
     fork.replace_wasm(
         &fork.contract(AGGREGATOR),
-        include_bytes!("../wasm/wowmax_stellar_router.wasm"),
+        include_bytes!("../target/wasm32v1-none/release/wowmax_stellar_router.wasm"),
     );
     let user = fork.local_account("trader");
     fork.fund_local_account(&user, 10 * AMOUNT as i64);

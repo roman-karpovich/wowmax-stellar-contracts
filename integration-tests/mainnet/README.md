@@ -1,51 +1,23 @@
-# Current router against captured mainnet pools
+# The same deadline on three swap venues
 
-Three offline regression tests run the current router WASM against real
-Soroswap, Phoenix and Aquarius contracts captured from mainnet.
+The router can split a swap across venues that interpret the same deadline differently. [Kanatoko](https://crates.io/crates/kanatoko) runs this checkout’s router against saved Soroswap, Phoenix and Aquarius mainnet contracts and pool reserves.
 
-## Run
+| Scenario | Result |
+| --- | --- |
+| `deadline == now` | Soroswap rejects with error 503. The route through Phoenix and Aquarius settles. |
+| Split 300 XLM across three venues | The trader receives the sum of the pool quotes. A minimum one stroop higher fails. |
+| Merge the same pools with deadline zero | The trader receives the quoted total. The router finishes with zero XLM, USDC and AQUA balances. |
 
-Install Rust 1.95.0 with the wasm32v1-none target, then run from the repository root:
+For a route that can include any of the three venues, use a future Unix timestamp or the router’s supported zero deadline. The tests replace the router executable locally and use the venue code and state in the [Protocol 29 fixtures](fixtures/).
+
+[Read the Rust assertions](tests/mainnet.rs#L222).
+
+## Reproduce locally
+
+Use Rust 1.95.0 with the `wasm32v1-none` target. From the repo root, build the contracts, fetch the locked test dependencies once, then run the test offline.
 
 ```sh
-rustup toolchain install 1.95.0 --profile minimal --target wasm32v1-none
-./integration-tests/mainnet/check.sh
-# After dependencies have been downloaded:
-./integration-tests/mainnet/check.sh --offline
+cargo +1.95.0 build --locked --manifest-path contracts/Cargo.toml --target wasm32v1-none --profile release -p wowmax-stellar-router --target-dir integration-tests/mainnet/target
+cargo +1.95.0 fetch --locked --manifest-path integration-tests/mainnet/Cargo.toml
+cargo +1.95.0 test --locked --offline --manifest-path integration-tests/mainnet/Cargo.toml
 ```
-
-The script builds the current checkout's contracts and replays committed captures.
-No Stellar CLI, wallet, public-network deployment or RPC is needed for replay.
-The isolated test workspace installs Kanatoko 29.1.0 from crates.io; it does
-not change the contracts' SDK dependencies. WASM outputs are ignored, rebuilt in
-CI and never used as a substitute for the current source.
-
-## Coverage
-
-- A split across the three venues pays exactly their own pool quotes; one
-  stroop above the aggregate quote rejects, and the inclusive minimum succeeds.
-- The equivalent pooled merge pays the same quoted total with deadline zero
-  and leaves no input/intermediate/output token balances at the aggregator.
-- deadline == now is rejected by a Soroswap leg (503), while the current
-  aggregator accepts it for Phoenix and Aquarius. A venue-independent caller
-  should pass a future Unix timestamp or the supported zero sentinel.
-
-This preserves the deployed contract's behavior and bytecode-equivalence guard.
-It documents the boundary discrepancy in #1; it does not change expiry policy
-or claim that the discrepancy causes loss of funds.
-
-## Local setup and captures
-
-The fixtures pin Protocol 29 ledger state and contract code. The aggregator
-CBMPYAEOGQUJ3LVMFXPN3X4GVNPPEI6FVG6YC7HYBYSN26KODOLUSNPF retains its captured
-address/storage; only its executable is locally replaced with the freshly
-built router. External pool/router code and state are not replaced. The source
-baseline was 2cdb2bfcd15e62fc68f55d72b7851902bad5aa99 when captures were produced.
-
-Authorization and the trader's funding/trustline are explicit local test setup.
-No live swap, wallet or deployment is involved. These are Host behavior checks,
-not fee/transaction-admission evidence.
-
-A missing capture fails offline. Explicit read-only refresh is available by
-calling cargo test after building with KANATOKO_CAPTURE_RPC set to a compatible
-Protocol 29 endpoint. check.sh clears that variable.
